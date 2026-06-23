@@ -115,9 +115,14 @@ def export_vcenter1(playwright, password):
 
     sr = popup.value
 
-    sr.wait_for_timeout(5000)
+    sr.wait_for_load_state("domcontentloaded")
+    sr.wait_for_timeout(10000)
 
-    print("tombol OPEN ditemukan")
+    print("popup SR VC1 terbuka")
+
+    sr.locator(
+        'a[aria-label*="Replications within"]'
+    ).wait_for(timeout=120000)
 
     sr.locator(
         'a[aria-label*="Replications within"]'
@@ -206,7 +211,14 @@ def export_vcenter2(playwright, password):
 
     sr = popup.value
 
-    sr.wait_for_timeout(5000)
+    sr.wait_for_load_state("domcontentloaded")
+    sr.wait_for_timeout(10000)
+
+    print("popup SR VC2 terbuka")
+
+    sr.locator(
+        'a[aria-label*="Replications within"]'
+    ).wait_for(timeout=120000)
 
     sr.locator(
         'a[aria-label*="Replications within"]'

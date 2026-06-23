@@ -1,0 +1,17 @@
+# Export hasil harian
+exports/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.env
+
+# Excel temporary
+~$*.xlsx
+~$*.xlsm
+
+# Log
+*.log
