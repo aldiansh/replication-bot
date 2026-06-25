@@ -94,7 +94,8 @@ def export_vcenter1(playwright, password):
 
     print("site recovery diklik")
 
-    page.wait_for_timeout(10000)
+    page.wait_for_load_state("networkidle")
+    page.wait_for_timeout(5000)
 
     frame = page.locator("iframe").content_frame
 
@@ -511,6 +512,12 @@ def export_vcenter4(playwright, password):
 # MAIN
 # =========================
 
+bulan = [
+    "Januari", "Februari", "Maret", "April",
+    "Mei", "Juni", "Juli", "Agustus",
+    "September", "Oktober", "November", "Desember"
+]
+
 def main():
 
     global SHIFT
@@ -533,9 +540,12 @@ def main():
         print("Shift tidak valid")
         return
 
+    now = datetime.now()
+
     EXPORT_DIR = (
         Path("exports")
-        / f"{datetime.now().strftime('%d-%m-%Y')} ({SHIFT})"
+        / f"{bulan[now.month - 1]}-{now.year}"
+        / f"{now.strftime('%d-%m-%Y')} ({SHIFT})"
     )
 
     EXPORT_DIR.mkdir(
