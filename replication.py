@@ -90,12 +90,22 @@ def export_vcenter1(playwright, password):
     page.get_by_role(
         "link",
         name="Site Recovery"
-    ).click()
+    ).wait_for(timeout=120000)
+
+    print("menu Site Recovery ditemukan")
+
+    print("URL sebelum klik =", page.url)
+
+    page.get_by_role(
+        "link",
+        name="Site Recovery"
+    ).click(force=True)
 
     print("site recovery diklik")
 
-    page.wait_for_load_state("networkidle")
     page.wait_for_timeout(5000)
+
+    print("URL sesudah klik =", page.url)
 
     frame = page.locator("iframe").content_frame
 
