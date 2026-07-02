@@ -94,18 +94,31 @@ def export_vcenter1(playwright, password):
 
     print("menu Site Recovery ditemukan")
 
-    print("URL sebelum klik =", page.url)
+    for i in range(3):
 
-    page.get_by_role(
-        "link",
-        name="Site Recovery"
-    ).click(force=True)
+        print(f"Percobaan klik Site Recovery ke-{i+1}")
 
-    print("site recovery diklik")
+        print("URL sebelum klik =", page.url)
 
-    page.wait_for_timeout(5000)
+        page.get_by_role(
+            "link",
+            name="Site Recovery"
+        ).click(force=True)
 
-    print("URL sesudah klik =", page.url)
+        page.wait_for_timeout(5000)
+
+        print("URL sesudah klik =", page.url)
+
+        if "draasclientplugin" in page.url:
+            print("Berhasil masuk ke Site Recovery")
+            break
+
+        print("Klik gagal, coba lagi...")
+
+    else:
+        raise Exception(
+            "Tidak bisa masuk ke halaman Site Recovery"
+        )
 
     frame = page.locator("iframe").content_frame
 
