@@ -144,15 +144,36 @@ def export_vcenter1(playwright, password):
 
     print("popup SR VC1 terbuka")
 
-    sr.locator(
-        'a[aria-label*="Replications within"]'
-    ).wait_for(timeout=120000)
+    # =========================
+    # BUKA MENU REPLICATIONS
+    # =========================
 
-    sr.locator(
+    replication_menu = sr.locator(
         'a[aria-label*="Replications within"]'
-    ).click()
+    )
 
-    print("halaman replication dibuka")
+    replication_menu.wait_for(timeout=120000)
+    replication_menu.click()
+
+    print("halaman replication VC1 dibuka")
+
+    # =========================
+    # TUNGGU DATA VM MUNCUL
+    # =========================
+
+    print("menunggu daftar VM...")
+
+    vm_rows = sr.get_by_role("row")
+    vm_rows.nth(1).wait_for(timeout=60000)
+
+    print("VM sudah muncul")
+
+    # Buffer kecil agar grid selesai render
+    sr.wait_for_timeout(2000)
+
+    # =========================
+    # EXPORT
+    # =========================
 
     sr.get_by_role(
         "button",
@@ -161,8 +182,7 @@ def export_vcenter1(playwright, password):
 
     with sr.expect_download() as d:
         sr.get_by_role("menuitem").first.click()
-
-    download = d.value
+        download = d.value
 
     print("DOWNLOAD NAME =", download.suggested_filename)
     print("DOWNLOAD PATH =", download.path())
@@ -240,15 +260,37 @@ def export_vcenter2(playwright, password):
 
     print("popup SR VC2 terbuka")
 
-    sr.locator(
-        'a[aria-label*="Replications within"]'
-    ).wait_for(timeout=120000)
+    # =========================
+    # BUKA MENU REPLICATIONS
+    # =========================
 
-    sr.locator(
+    replication_menu = sr.locator(
         'a[aria-label*="Replications within"]'
-    ).click()
+    )
+
+    replication_menu.wait_for(timeout=120000)
+    replication_menu.click()
 
     print("halaman replication VC2 dibuka")
+
+    # =========================
+    # TUNGGU DATA VM MUNCUL
+    # =========================
+
+    print("menunggu daftar VM...")
+
+    vm_rows = sr.get_by_role("row")
+
+    vm_rows.nth(1).wait_for(timeout=60000)
+
+    print("daftar VM sudah muncul")
+
+    # sedikit buffer agar grid selesai render
+    sr.wait_for_timeout(2000)
+
+    # =========================
+    # EXPORT
+    # =========================
 
     sr.get_by_role("button", name="EXPORT").click()
 
@@ -367,6 +409,15 @@ def export_vcenter4(playwright, password):
 
         print("Halaman replication SR1 terbuka")
 
+        print("Menunggu daftar VM...")
+
+        vm_rows = sr1.get_by_role("row")
+        vm_rows.nth(1).wait_for(timeout=60000)
+
+        print("VM sudah muncul")
+
+        sr1.wait_for_timeout(2000)
+
         # export outgoing
         sr1.get_by_role(
             "button",
@@ -405,6 +456,15 @@ def export_vcenter4(playwright, password):
             "button",
             name="EXPORT"
         ).wait_for(timeout=30000)
+
+        print("Menunggu daftar VM...")
+
+        vm_rows = sr1.get_by_role("row")
+        vm_rows.nth(1).wait_for(timeout=60000)
+
+        print("VM sudah muncul")
+
+        sr1.wait_for_timeout(2000)
 
         # export within
         sr1.get_by_role(
@@ -474,6 +534,15 @@ def export_vcenter4(playwright, password):
 
     print("Halaman replication SR2 terbuka")
 
+    print("Menunggu daftar VM...")
+
+    vm_rows = sr2.get_by_role("row")
+    vm_rows.nth(1).wait_for(timeout=60000)
+
+    print("VM sudah muncul")
+
+    sr2.wait_for_timeout(2000)
+
     # export outgoing
     sr2.get_by_role(
         "button",
@@ -500,7 +569,7 @@ def export_vcenter4(playwright, password):
 
     # buka replication within
     sr2.get_by_label(
-        "89 Replications within the"
+        "91 Replications within the"
     ).click()
 
     print("Within SR2 diklik")
@@ -511,6 +580,15 @@ def export_vcenter4(playwright, password):
         "button",
         name="EXPORT"
     ).wait_for(timeout=30000)
+
+    print("Menunggu daftar VM...")
+
+    vm_rows = sr2.get_by_role("row")
+    vm_rows.nth(1).wait_for(timeout=60000)
+
+    print("VM sudah muncul")
+
+    sr2.wait_for_timeout(2000)
 
     # export within
     sr2.get_by_role(
